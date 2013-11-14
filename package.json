@@ -1,0 +1,21 @@
+{
+  "name": "vamfire",
+  "version": "0.0.0",
+  "description": "VamFire Project",
+  "main": "index.js",
+  "dependencies": {
+    "express": "3.x"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/nodejskr/vamfire.git"
+  },
+  "author": "nodejskr",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nodejskr/vamfire/issues"
+  }
+}
