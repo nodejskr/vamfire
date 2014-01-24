@@ -4,10 +4,13 @@
  */
 
 var express = require('express');
-var routes = require('./routes');
-var user = require('./routes/user');
 var http = require('http');
 var path = require('path');
+
+var reqparser = require( './vamfire/requestparser' );
+var datacenter = require( './vamfire/vamfire_datacenter' );
+var tasks = require( './vamfire/vamfire_task' );
+
 
 var app = express();
 var server = app.listen(process.env.PORT || 3000);
@@ -31,7 +34,15 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-app.get('/', routes.index);
+// init modules
+reqparser.setdatacenter( datacenter )
+reqparser.settasks( tasks )
+
+// Link Address Parse
+app.get('/*', reqparser.index);
+app.post('/*', reqparser.index);
+app.put('/*', reqparser.index);
+app.delete('/*', reqparser.index);
 
 // socket.io
 io.sockets.on('connection', function (socket) {
