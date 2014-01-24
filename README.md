@@ -1,15 +1,21 @@
 
-
-# famersbs_sample
+# VamFire
 
 
 
 ## Usage
 
+### Install and Run 
 
+( now support only devlop mode )
+
+chmod 755 ./update.sh
+chmod 755 ./run.sh
+
+./update.sh
+./run.sh
 
 ## Developing
-
 
 
 ### Tools
