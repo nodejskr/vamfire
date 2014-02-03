@@ -6,11 +6,24 @@
 var express = require('express');
 var http = require('http');
 var path = require('path');
+var pathList = require('./vamfire/PathList');
+pathList.setRoot();
 
 var reqparser = require( './vamfire/requestparser' );
 var datacenter = require( './vamfire/vamfire_datacenter' );
 var tasks = require( './vamfire/vamfire_task' );
+var dataBinder = require(pathList.PathList.dataBinder+'DataBinder');
+var eventObserver = require(pathList.PathList.eventObserver+'EventObserver');
 
+// ---- test
+var tmp = {'a':'c'};
+dataBinder.registSocket({'a':'b'});
+dataBinder.registSocket(tmp);
+eventObserver.notifyObservers('Insert', 'asdg');
+console.log('-----------')
+dataBinder.unregistSocket(tmp);
+eventObserver.notifyObservers('Insert', 'asdg');
+// ---- test
 
 var app = express();
 var server = app.listen(process.env.PORT || 3000);
