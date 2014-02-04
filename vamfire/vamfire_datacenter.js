@@ -38,7 +38,7 @@ var DataElement = function( keyname, value ){
 	 */
 	// 키가 없다면 안쪽으로 쭉 깊숙하게 만드는 형태로 간다.
 	this.addChild = function( key, value ){
-		console.log( key, value );
+		//console.log( key, value );
 		if( key.length <= 0 ){
 			this.value = value;
 			return true;
@@ -50,7 +50,7 @@ var DataElement = function( keyname, value ){
 			findchild = new DataElement( key[0], '' );
 			this.childs[ key[0] ] = findchild;
 			
-			console.log( findchild );
+			//console.log( findchild );
 			
 		}
 		
@@ -76,7 +76,3 @@ exports.get = function( key ){
 exports.add = function( key, value ){
 	return data.addChild( key, value );
 };
-
-// dummy data
-data.addChild( ["test","test"], "this is test" );
-data.addChild( ["test"], "this is test root" );
