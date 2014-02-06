@@ -44,6 +44,7 @@ module.exports = {
 		var current_key = null;
 
 		dc.addlistener( function( e ){ 
+				
 				add_flag ++;
 				e.should.have.property("key");
 				e.key.should.eql( current_key ); 
