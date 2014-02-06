@@ -9,44 +9,44 @@ var eventUpdate = require(pathList.PathList.eventType+'EventUpdate');
 var eventDelete = require(pathList.PathList.eventType+'EventDelete');*/
 
 var EventObserver = {
-	receiverList : {},
+	observerList : {},
 	init : function() {
 		eventTypeManager.init();
-		EventObserver.setReceiverList();
+		EventObserver.setObserverList();
 	},
-	setReceiverList : function() {
-		// set empty receiver list
+	setObserverList : function() {
+		// set empty observer list
 		var eventType;
 		for (var i = 0, len = eventTypeManager.countEventType(); i < len; i++) {
 			eventType = eventTypeManager.getEventType(i);
-			EventObserver.receiverList[eventType] = [];
+			EventObserver.observerList[eventType] = [];
 		}
 	},
 	isContains : function(eventType, obj) {
-		var index = EventObserver.receiverList[eventType].indexOf(obj);
+		var index = EventObserver.observerList[eventType].indexOf(obj);
 		if (index == -1) {
 			return false;
 		}
 
 		return index;
 	},
-	registObserver : function(eventType, addRecvObj) {
+	registObserver : function(eventType, observer) {
 		if (eventTypeManager.checkEventType(eventType) == false ||
-				EventObserver.isContains(eventType, addRecvObj) === true) {
+				EventObserver.isContains(eventType, observer) === true) {
 			return false;
 		}
 
-		EventObserver.receiverList[eventType].push(addRecvObj);
+		EventObserver.observerList[eventType].push(observer);
 		return true;
 	},
-	unregistObserver : function(eventType, removeRecvObj) {
+	unregistObserver : function(eventType, observer) {
 		var index = -1;
 		if (eventTypeManager.checkEventType(eventType) == false ||
-				(index = EventObserver.isContains(eventType, removeRecvObj)) === false) {
+				(index = EventObserver.isContains(eventType, observer)) === false) {
 			return false;
 		}
 
-		EventObserver.receiverList[eventType].splice(index, 1);
+		EventObserver.observerList[eventType].splice(index, 1);
 		return true;
 	},
 	notifyObservers : function(eventType, data) {
@@ -54,11 +54,11 @@ var EventObserver = {
 			return false;
 		}
 
-		var recvList = EventObserver.receiverList[eventType];
+		var obsvList = EventObserver.observerList[eventType];
 
-		for (var key in recvList) {
-			var receiver = recvList[key];
-			receiver.notify(eventType, data);
+		for (var key in obsvList) {
+			var observer = obsvList[key];
+			observer.notify(eventType, data);
 		}
 
 		return true;
@@ -72,10 +72,10 @@ exports.unregistObserver = EventObserver.unregistObserver;
 exports.notifyObservers = EventObserver.notifyObservers;
 
 // test code
-/*exports.getRecvObjList = function(eventType) {
-	return EventObserver.receiverList[eventType];
+/*exports.getObserverList = function(eventType) {
+	return EventObserver.observerList[eventType];
 }
 
-exports.getRecvEveryEventObjList = function() {
-	return EventObserver.receiverList;
+exports.getEveryObserverList = function() {
+	return EventObserver.observerList;
 }*/

@@ -1,6 +1,7 @@
 // create new object
-module.exports = function(firstSockObj) {
-	var sockObj = firstSockObj;
+module.exports = function(sockObj, recvEventList) {
+	var sockObj = sockObj;
+	var recvEventList = (recvEventList != undefined) ? recvEventList : [];
 
 	return {
 		notify : function(eventType, data) {
@@ -12,6 +13,8 @@ module.exports = function(firstSockObj) {
 		},
 		getSocket : function() {
 			return sockObj;
+		},
+		setRecvEvent : function() {
 		}
 	}
 };
