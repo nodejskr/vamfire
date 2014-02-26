@@ -13,16 +13,13 @@ var reqparser = require( './vamfire/requestparser' );
 var datacenter = require( './vamfire/vamfire_datacenter' );
 var tasks = require( './vamfire/vamfire_task' );
 var dataBinder = require(pathList.PathList.dataBinder+'DataBinder');
-var eventObserver = require(pathList.PathList.eventObserver+'EventObserver');
+var eventManager = require('./vamfire/Event/EventManager');
 
 // ---- test
-var tmp = {'a':'c'};
-dataBinder.registSocket({'a':'b'});
-dataBinder.registSocket(tmp);
-eventObserver.notifyObservers('Insert', 'asdg');
-console.log('-----------')
-dataBinder.unregistSocket(tmp);
-eventObserver.notifyObservers('Insert', 'asdg');
+eventManager.addData('abc', 'gg');
+eventManager.addData('abdc', 'gg');
+eventManager.updateData('abc', 'gggd');
+eventManager.deleteData('abc');
 // ---- test
 
 var app = express();

@@ -1,34 +1,53 @@
 var pathList = require('../PathList');
-var eventObserver = require(pathList.PathList.eventObserver+'EventObserver');
-var keyValueObserver = require(pathList.PathList.dataObserverType+'observerKeyValue');
+var eventFactory = require('../Event/EventFactory');
 
 var DataBinder = {
 	i : 0,
-	tmp : {},
+	socketPool : {},
+	data : {},
 	registSocket : function(sockObj) {
-		// 보완 예정
-		var newObserver = new keyValueObserver(sockObj);
-		eventObserver.registObserver('Insert', newObserver);
-		eventObserver.registObserver('Delete', newObserver);
-		eventObserver.registObserver('Update', newObserver);
-		eventObserver.registObserver('Get', newObserver);
-		DataBinder.tmp[DataBinder.i++] = {'a' : sockObj, 'b' : newObserver};
+		DataBinder.socketPool[DataBinder.i++] = sockObj;
 	},
 	unregistSocket : function(sockObj) {
-		var newObserver;
-
-		for (var key in DataBinder.tmp) {
-			if (sockObj === DataBinder.tmp[key]['a']) {
-				newObserver = DataBinder.tmp[key]['b']
-				eventObserver.unregistObserver('Insert', newObserver);
-				eventObserver.unregistObserver('Delete', newObserver);
-				eventObserver.unregistObserver('Update', newObserver);
-				eventObserver.unregistObserver('Get', newObserver);
-				delete DataBinder.tmp[key];
+		for (var key in DataBinder.socketPool) {
+			if (sockObj === DataBinder.socketPool[key]) {
+				delete DataBinder.socketPool[key];
 			}
+		};
+	},
+	modifyData : function(event) {
+		switch (event.type) {
+			case eventFactory.ET_ADD() :
+				DataBinder.add(event.key, event.value);
+				break;
+			case eventFactory.ET_UPDATE() :
+				DataBinder.update(event.key, event.value);
+				break;
+			case eventFactory.ET_DELETE() :
+				DataBinder.delete(event.key);
+				break;
+			default :
+				break;
+		}
+		DataBinder.sendEvent(event);
+	},
+	add : function(key, value) {
+		DataBinder.data[key] = value;
+	},
+	update : function(key, value) {
+		DataBinder.data[key] = value;
+	},
+	delete : function(key) {
+		delete(DataBinder.data[key]);
+	},
+	sendEvent : function(event) {
+		console.log(DataBinder.data);
+		for (var key in DataBinder.socketPool) {
+			var socket = DataBinder.socketPool[key];
 		};
 	}
 };
 
 exports.registSocket = DataBinder.registSocket;
 exports.unregistSocket = DataBinder.unregistSocket;
+exports.modifyData = DataBinder.modifyData;

@@ -25,27 +25,27 @@ var eventDispatcher = {
 
 	visitlisteners: function( at, arg, type ){
 
-                var listentype = type || 'any';
-                var listeners = this.listeners[listentype];
+		var listentype = type || 'any';
+		var listeners = this.listeners[listentype];
 
 		if( typeof this.listeners[listentype] === "undefined" ){
 			return;
 		} 
 
-                var i;
-                var max = listeners.length;
+		var i;
+		var max = listeners.length;
 
-                for( i = 0 ; i < max ; i += 1 ){
+		for( i = 0 ; i < max ; i += 1 ){
 
 			if( eventDispatcher.AT_REMOVE == at ){
-                	        if( listeners[i] === arg ){
-        	                        listeners.splice( i, 1 );
-	                       	}
+				if( listeners[i] === arg ){
+					listeners.splice( i, 1 );
+				}
 			}else{
 				listeners[i](arg);
 			}
 
-                }
+		}
 
 	},
 

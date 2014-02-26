@@ -3,7 +3,7 @@ var assert = require('assert');
 
 var createEventtype = function(){
 
-	return require('../../vamfire/event/eventtype');
+	return require('../../vamfire/Event/EventFactory');
 	
 }
 
